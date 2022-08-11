@@ -1,7 +1,7 @@
 import click
 from pathlib import Path
-from flag.interface import Lexer, Parser
-from flag.utils.errors import LexicalException, SyntaxException
+from flagg.interface import Lexer, Parser
+from flagg.utils.errors import LexicalException, SyntaxException
 
 
 @click.command()

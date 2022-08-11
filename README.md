@@ -1,6 +1,6 @@
 # Flag 
 
-Flag is an acronym Formal Language Analyzer Generator and that pretty much describes the functionality of this project.
+Flag is an acronym Formal Language Analyzer Great Generator and that pretty much describes the functionality of this project.
 
 ## Formal Languages
 

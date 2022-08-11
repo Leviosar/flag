@@ -1,4 +1,4 @@
-from flag import __version__
+from flagg import __version__
 
 
 def test_version():

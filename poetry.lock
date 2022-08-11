@@ -26,18 +26,13 @@ version = "0.2.1"
 description = "Automata simulation with Python"
 category = "main"
 optional = false
-python-versions = "^3.10"
-develop = false
+python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-black = "^22.3.0"
-click = "^8.1.3"
-ksuid = "^1.3"
-tabulate = "^0.8.9"
-
-[package.source]
-type = "directory"
-url = "../autome"
+black = ">=22.3.0,<23.0.0"
+click = ">=8.1.3,<9.0.0"
+ksuid = ">=1.3,<2.0"
+tabulate = ">=0.8.9,<0.9.0"
 
 [[package]]
 name = "black"
@@ -216,7 +211,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "4980c906d8a1ed50ad67552cc3df576ce4f10e922f1b92f3a4b665368f470fb0"
+content-hash = "30190aea31e229a44c7c72e276aa2b88e598d3b69a28017a6032da3806394344"
 
 [metadata.files]
 atomicwrites = []
