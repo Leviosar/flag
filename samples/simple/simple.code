@@ -1,0 +1,21 @@
+# Simple attribution
+$a = 0
+0 = $a
+
+# Simple attribution with simple arithimetic expression
+$b = 1 + 2
+
+# Simple attribution with boolean
+bool $b1 = false
+
+# Simple attribution with float
+float $b2 = 1.1
+
+# Attribution with nested arithimetic expression 
+$c = [ [ 1 + 2 ] x 2 ] / 3
+
+# Attribution with expression using identifiers
+$d = $a + $b
+
+# Simple if with single expression
+if $a > $b { $a = true }

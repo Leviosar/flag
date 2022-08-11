@@ -1,0 +1,75 @@
+{
+    "version": "1.0.0",
+    "description": "Describes a simple programming language with type hints",
+    "reserved-keywords": ["else", "while", "return", "const"],
+    "definitions": [
+        {"name": "digit", "expression": "0|1|2|3|4"},
+        {"name": "letter", "expression": "a|b|c|d|e"},
+        {"name": "int_t", "expression": "i n t"},
+        {"name": "bool_t", "expression": "b o o l"},
+        {"name": "float_t", "expression": "f l o a t"},
+        {"name": "string_t", "expression": "s t r i n g"}
+    ],
+    "tokens": [
+        {"name": "type", "expression": "int_t|bool_t|float_t|string_t"},
+        {"name": "id", "expression": "$ letter (letter|digit)*"},
+        {"name": "attr", "expression": "="},
+        {"name": "c_op", "expression": ">|(> =)|<|(< =)|(= =)|(! =)"},
+        {"name": "a1_op", "expression": "+|-"},
+        {"name": "a2_op", "expression": "x|/"},
+        {"name": "l_curly", "expression": "{"},
+        {"name": "r_curly", "expression": "}"},
+        {"name": "l_par", "expression": "["},
+        {"name": "r_par", "expression": "]"},
+        {"name": "boolean", "expression": "(t r u e)|(f a l s e)"},
+        {"name": "integer", "expression": "digit digit*"},
+        {"name": "float", "expression": "(digit)* . digit digit*"},
+        {"name": "if", "expression": "i f"}
+    ],
+    "grammar": {
+        "nonterminals": [
+            "S",
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J"
+        ],
+        "terminals": [
+            "type",
+            "id",
+            "attr",
+            "c_op",
+            "a1_op",
+            "a2_op",
+            "l_curly",
+            "r_curly",
+            "l_par",
+            "r_par",
+            "boolean",
+            "integer",
+            "float",
+            "if",
+            "&"
+        ],
+        "initial": "S",
+        "productions": [
+            {"head": "S", "body": "A|C|D|E"},
+            {"head": "A", "body": "type id attr F"},
+            {"head": "B", "body": "integer|float|boolean"},
+            {"head": "C", "body": "id c_op id"},
+            {"head": "D", "body": "if C l_curly S r_curly"},
+            {"head": "E", "body": "id attr F"},
+            {"head": "F", "body": "H G"},
+            {"head": "G", "body": "a1_op H G|&"},
+            {"head": "H", "body": "J I"},
+            {"head": "I", "body": "a2_op J I|&"},
+            {"head": "J", "body": "l_par F r_par|id|integer|float|boolean"}
+        ]
+    }
+}
