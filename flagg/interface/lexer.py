@@ -39,8 +39,13 @@ class Lexer:
     """
     The machine actually evaluating the code.
     """
+    verbose: bool
+    """Flag for enabling verbose mode
+    """
 
-    def __init__(self, input: Union[click.Path, pathlib.Path, None]) -> None:
+    def __init__(self, input: Union[click.Path, pathlib.Path, None], verbose: bool = False) -> None:
+        self.verbose = verbose
+
         if input is None:
             pass
         elif isinstance(input, click.Path) or isinstance(input, pathlib.Path):
@@ -50,15 +55,15 @@ class Lexer:
             raise Exception("Invalid arguments")
 
     @classmethod
-    def parse(cls, input: Union[click.Path, pathlib.Path]):
+    def parse(cls, input: Union[click.Path, pathlib.Path], verbose: bool = False):
         """Parses the input file with the definitions of a lexical analyzer into useful data for the program"""
         with open(input) as file:
             content = json.load(file)
 
         if not content.get("automata"):
-            return Lexer(input)
+            return Lexer(input, verbose)
 
-        instance = Lexer(None)
+        instance = Lexer(None, verbose)
         instance.keywords = content["reserved-keywords"]
         instance.definitions = [
             Definition(definition["name"], definition["expression"])
@@ -109,11 +114,12 @@ class Lexer:
         as arguments, identifiying the type of token by a label 'type' marked on the final states of
         the 'building' automatas
         """
-        data = self.definitions + self.tokens
-        data = [[entry.name, entry.expression] for entry in data]
 
-        headers = ["Type", "Expression"]
-        print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
+        if self.verbose:
+            data = self.definitions + self.tokens
+            data = [[entry.name, entry.expression] for entry in data]
+            headers = ["Type", "Expression"]
+            print(tabulate(data, headers=headers, tablefmt="fancy_grid"))
 
         defined_tokens: List[Definition] = []
         for token in self.tokens:
@@ -145,7 +151,6 @@ class Lexer:
                     state.type = self.tokens[i].name
                 machine = UnionAutomata(machine, next)
 
-        print("Espera um pouquinho que eu sou meio devagar...")
         return machine.determinize().clone().minimize()
 
     def run(self, code: str) -> List[Dict[str, str]]:
@@ -159,11 +164,12 @@ class Lexer:
 
         source = code.strip()
 
-        data = []
-        lines = source.split("\n")
-        for index, line in enumerate(lines):
-            data.append([index, line])
-        print(tabulate(data, headers=["Source code"], tablefmt="fancy_grid"))
+        if self.verbose:
+            data = []
+            lines = source.split("\n")
+            for index, line in enumerate(lines):
+                data.append([index, line])
+            print(tabulate(data, headers=["Source code"], tablefmt="fancy_grid"))
 
         found: List[Token] = []
 
@@ -190,9 +196,10 @@ class Lexer:
 
             i += 1
 
-        data = []
-        for entry in found:
-            data.append([entry.type, entry.value])
-        print(tabulate(data, headers=["TokenType", "Value"], tablefmt="fancy_grid"))
+        if self.verbose:
+            data = []
+            for entry in found:
+                data.append([entry.type, entry.value])
+            print(tabulate(data, headers=["TokenType", "Value"], tablefmt="fancy_grid"))
 
         return found

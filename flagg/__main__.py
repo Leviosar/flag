@@ -8,10 +8,11 @@ from flagg.utils.errors import LexicalException, SyntaxException
 @click.argument("input", type=click.Path(exists=True, path_type=Path))
 @click.argument("source", type=click.Path(exists=True, path_type=Path))
 @click.option("--output", type=click.Path(path_type=Path))
-def cli(input, source, output):
-    lexer = Lexer.parse(input)
+@click.option("--verbose/--no-verbose", default=False)
+def cli(input, source, output, verbose):
 
-    parser = Parser.parse(input)
+    lexer = Lexer.parse(input, verbose=verbose)
+    parser = Parser.parse(input, verbose=verbose)
 
     with open(source, "r") as file:
         code = file.read()
