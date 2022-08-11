@@ -4,17 +4,11 @@ from flag.interface import Lexer, Parser
 from flag.utils.errors import LexicalException, SyntaxException
 
 
-@click.group()
-def cli():
-    pass
-
-
-@cli.command()
+@click.command()
 @click.argument("input", type=click.Path(exists=True, path_type=Path))
 @click.argument("source", type=click.Path(exists=True, path_type=Path))
 @click.option("--output", type=click.Path(path_type=Path))
-def lexico(input: Path, source: Path, output: Path):
-
+def cli(input, source, output):
     lexer = Lexer.parse(input)
 
     parser = Parser.parse(input)

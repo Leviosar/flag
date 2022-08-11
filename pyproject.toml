@@ -7,7 +7,7 @@ authors = ["João Vitor Maia <maia.tostring@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 click = "^8.1.3"
-autome = "^0.1.0"
+autome = {path = "../autome"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

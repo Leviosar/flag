@@ -22,17 +22,22 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "autome"
-version = "0.1.0"
+version = "0.2.1"
 description = "Automata simulation with Python"
 category = "main"
 optional = false
-python-versions = ">=3.10,<4.0"
+python-versions = "^3.10"
+develop = false
 
 [package.dependencies]
-black = ">=22.3.0,<23.0.0"
-click = ">=8.1.3,<9.0.0"
-ksuid = ">=1.3,<2.0"
-tabulate = ">=0.8.9,<0.9.0"
+black = "^22.3.0"
+click = "^8.1.3"
+ksuid = "^1.3"
+tabulate = "^0.8.9"
+
+[package.source]
+type = "directory"
+url = "../autome"
 
 [[package]]
 name = "black"
@@ -211,7 +216,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "256dce0c83b0cf0cb4f64e8848d4834b9069a299bdbc252e166717115358b112"
+content-hash = "4980c906d8a1ed50ad67552cc3df576ce4f10e922f1b92f3a4b665368f470fb0"
 
 [metadata.files]
 atomicwrites = []

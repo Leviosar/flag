@@ -1,6 +1,5 @@
 # Simple attribution
 $a = 0
-0 = $a
 
 # Simple attribution with simple arithimetic expression
 $b = 1 + 2
