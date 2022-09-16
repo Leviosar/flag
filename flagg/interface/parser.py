@@ -20,7 +20,7 @@ class Parser:
 
         Returns:
             Parser: a new Parser interface instance
-        """        
+        """
         grammar = CFG.parse(input)
 
         return Parser(grammar, verbose)

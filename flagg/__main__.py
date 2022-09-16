@@ -34,9 +34,11 @@ def cli(input, source, output, verbose):
         except SyntaxException as err:
             print(f"Syntax error on line {index}")
             exit(err)
-        except LexicalException:
-            print(f"Lexical error on line {index}")
-            exit(err)
+        except LexicalException as err:
+            print(f"Lexical error on line {index}, column {err.args[1]}.")
+            print(line)
+            print((" " * (err.args[1] - 1)) + "^")
+            exit()
 
     print(f"{len(lines)} lines of code were validated")
 

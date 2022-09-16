@@ -6,6 +6,8 @@ from typing import Dict, List, Union
 from tabulate import tabulate
 from autome.utils.dataclasses import Definition, Token
 
+from flagg.utils.errors import LexicalException
+
 
 class Lexer:
     """
@@ -36,7 +38,9 @@ class Lexer:
     """Flag for enabling verbose mode
     """
 
-    def __init__(self, input: Union[click.Path, pathlib.Path, None], verbose: bool = False) -> None:
+    def __init__(
+        self, input: Union[click.Path, pathlib.Path, None], verbose: bool = False
+    ) -> None:
         self.verbose = verbose
 
         if input is None:
@@ -155,14 +159,16 @@ class Lexer:
                 found.append(Token("keyword", word))
                 i += 1
                 continue
-            
+
             for type in self.tokens:
                 if type.regex.match(word):
                     found.append(Token(type.name, word))
                     break
             else:
                 if word != "":
-                    raise Exception(f"Lexical Error {word}")
+                    raise LexicalException(
+                        f"Lexical Error, unexpected symbol sequence: {word}", i
+                    )
 
             i += 1
 
