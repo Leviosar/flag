@@ -1,12 +1,9 @@
 import json
 import pathlib
+import re
 import click
 from typing import Dict, List, Union
 from tabulate import tabulate
-from autome.automatas import DFA
-from autome.automatas.finite_automata.parsers import JSONConverter
-from autome.regex import Regex
-from autome.regex.blocks import UnionAutomata
 from autome.utils.dataclasses import Definition, Token
 
 
@@ -35,10 +32,6 @@ class Lexer:
 
     float => digit* . digit* 
     """
-    lexer: DFA
-    """
-    The machine actually evaluating the code.
-    """
     verbose: bool
     """Flag for enabling verbose mode
     """
@@ -50,7 +43,7 @@ class Lexer:
             pass
         elif isinstance(input, click.Path) or isinstance(input, pathlib.Path):
             self.input = self.parse_input(input)
-            self.lexer = self.build_lexer()
+            self.build_lexer()
         else:
             raise Exception("Invalid arguments")
 
@@ -73,7 +66,6 @@ class Lexer:
             Definition(definition["name"], definition["expression"])
             for definition in content["tokens"]
         ]
-        instance.lexer = JSONConverter.parse(content["automata"])
 
         return instance
 
@@ -93,21 +85,16 @@ class Lexer:
         ]
 
     def save(self, output: click.Path) -> None:
-        converter = JSONConverter()
-
-        model = converter.serialize(self.lexer)
-
         data = {
             "reserved-keywords": self.keywords,
             "definitions": [definition.dict() for definition in self.definitions],
             "tokens": [token.dict() for token in self.tokens],
-            "automata": model,
         }
 
         with open(output, "w+") as fp:
             fp.write(json.dumps(data))
 
-    def build_lexer(self) -> DFA:
+    def build_lexer(self) -> None:
         """
         Uses the regular definitions and token definitions to build a DFA that can identify tokens of
         the defined language. It's a huge DFA which accepts any word of any of the definitions passed
@@ -135,23 +122,8 @@ class Lexer:
                         defined_token.name, f"({defined_token.expression})"
                     )
 
-            token.regex = Regex(token.expression)
+            token.regex = re.compile(f"^{token.expression}$")
             defined_tokens.append(token)
-
-        for i in range(len(self.tokens)):
-            if i == 0:
-                first = self.tokens[i].regex.automata()
-                for state in first.final():
-                    state.type = self.tokens[i].name
-
-                machine = first
-            else:
-                next = self.tokens[i].regex.automata()
-                for state in next.final():
-                    state.type = self.tokens[i].name
-                machine = UnionAutomata(machine, next)
-
-        return machine.determinize().clone().minimize()
 
     def run(self, code: str) -> List[Dict[str, str]]:
         """
@@ -160,8 +132,6 @@ class Lexer:
         If at any time there's a symbol the DFA can't recognize, or a invalid token pattern, raises an
         exception. Otherwise, returns a list of the recognized tokens.
         """
-        self.lexer.create_transition_map()
-
         source = code.strip()
 
         if self.verbose:
@@ -185,11 +155,11 @@ class Lexer:
                 found.append(Token("keyword", word))
                 i += 1
                 continue
-
-            if self.lexer.accepts(word):
-                type = self.lexer.step_stack[-1].destiny.type
-
-                found.append(Token(type, word))
+            
+            for type in self.tokens:
+                if type.regex.match(word):
+                    found.append(Token(type.name, word))
+                    break
             else:
                 if word != "":
                     raise Exception(f"Lexical Error {word}")
