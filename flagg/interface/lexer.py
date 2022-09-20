@@ -148,27 +148,66 @@ class Lexer:
         found: List[Token] = []
 
         i = 0
+        error = False
+
+        """
+            Estratégias de leitura: o código é lido a primeira vez (L1) da direita para esquerda,
+            checando a cada caractere se a palavra atual é parte de um token.
+
+            Caso em L1 a palavra não seja parte de um token, fazemos uma leitura (L2) removendo
+            o último caractere lido, para checar se no passo anterior tinhamos um token.
+
+            Caso em L2 não seja encontrado um token, ainda assim será feita uma terceira leitura (L3)
+            até o final da linha de código, para checar por possíveis tokens que não podem ser identificados
+            apenas lendo o seu início (como por exemplo strings, a string 'abc' não pode ser identificada apenas
+            pela leitura de ' ou 'a)
+
+            Caso L3 não consiga encontrar um token, é levantado um erro léxico.
+        """
         while i < len(source):
             word = ""
 
-            while i < len(source) and source[i] != " " and source[i] != "\n":
+            while i < len(source) and source[i] != "\n":
                 word += source[i]
+                word = word.strip()
                 i += 1
 
-            if word in self.keywords:
-                found.append(Token("keyword", word))
-                i += 1
-                continue
+                if word in self.keywords:
+                    continue
 
-            for type in self.tokens:
-                if type.regex.match(word):
-                    found.append(Token(type.name, word))
-                    break
-            else:
-                if word != "":
-                    raise LexicalException(
-                        f"Lexical Error, unexpected symbol sequence: {word}", i
-                    )
+                for type in self.tokens:
+                    if type.regex.match(word):
+                        # L3
+                        if error:
+                            found.append(Token(type.name, word))
+                            word = ""
+                            error = False
+                        break
+                else:
+                    # L2
+                    if word[:-1] in self.keywords:
+                        found.append(Token("keyword", word))
+                        word = ""
+                        error = False
+                        i -= 1
+                        continue
+
+                    for type in self.tokens:
+                        if type.regex.match(word[:-1]):
+                            found.append(Token(type.name, word))
+                            word = ""
+                            error = False
+                            i -= 1
+                            break
+                    else:
+                        if word != "" and word != " ":
+                            error = True
+                            continue
+
+            if error:
+                raise LexicalException(
+                    f"Lexical Error, unexpected symbol sequence: {word}", i
+                )
 
             i += 1
 
