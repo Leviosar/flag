@@ -9,7 +9,8 @@ from flagg.utils.errors import LexicalException, SyntaxException
 @click.argument("source", type=click.Path(exists=True, path_type=Path))
 @click.option("--output", type=click.Path(path_type=Path))
 @click.option("--verbose/--no-verbose", default=False)
-def cli(input, source, output, verbose):
+@click.option("--syntatic/--no-syntatic", default=False)
+def cli(input, source, output, verbose, syntatic):
 
     lexer = Lexer.parse(input, verbose=False)
     parser = Parser.parse(input, verbose=False)
@@ -32,7 +33,9 @@ def cli(input, source, output, verbose):
         try:
             tokens = lexer.run(line.strip())
             table.append(index + 1, tokens)
-            parser.validate(tokens)
+            
+            if (syntatic):
+                parser.validate(tokens)
         except SyntaxException as err:
             print(f"Syntax error on line {index}")
             exit(err)
