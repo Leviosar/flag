@@ -1,5 +1,6 @@
 import json
 import pathlib
+import pdb
 import re
 import click
 from typing import Dict, List, Union
@@ -166,10 +167,10 @@ class Lexer:
         """
         while i < len(source):
             word = ""
-
+            
             while i < len(source) and source[i] != "\n":
                 word += source[i]
-                word = word.strip()
+                # word = word.strip()
                 i += 1
 
                 if word in self.keywords:
@@ -186,7 +187,7 @@ class Lexer:
                 else:
                     # L2
                     if word[:-1] in self.keywords:
-                        found.append(Token("keyword", word))
+                        found.append(Token("keyword", word[:-1]))
                         word = ""
                         error = False
                         i -= 1
@@ -194,7 +195,7 @@ class Lexer:
 
                     for type in self.tokens:
                         if type.regex.match(word[:-1]):
-                            found.append(Token(type.name, word))
+                            found.append(Token(type.name, word[:-1]))
                             word = ""
                             error = False
                             i -= 1
@@ -208,6 +209,16 @@ class Lexer:
                 raise LexicalException(
                     f"Lexical Error, unexpected symbol sequence: {word}", i
                 )
+            else:
+                if word.strip() != "":
+                    if word in self.keywords:
+                        found.append(Token('keyword', word))
+
+                    for type in self.tokens:
+                        if type.regex.match(word):
+                            found.append(Token(type.name, word))
+                            word = ""
+                            error = False
 
             i += 1
 

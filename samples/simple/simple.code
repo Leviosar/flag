@@ -1,20 +1,30 @@
 # Simple attribution
-$a = 0
+a=0
 
 # Simple attribution with simple arithimetic expression
-$b = 1 + 2
+b = 1 + 2
 
 # Simple attribution with boolean
-bool $b1 = false
+bool b1 = false
 
 # Simple attribution with float
-float $b2 = 1.1
+float b2 = 1.1
 
 # Attribution with nested arithimetic expression 
-$c = [ [ 1 + 2 ] x 2 ] / 3
+c = ( ( 1 + 2 ) * 2 ) / 3 % 2
 
 # Attribution with expression using identifiers
-$d = $a + $b
+d = a + b
+
+e = 'abc1878a;,.@'
 
 # Simple if with single expression
-if $a > $b { $a = true }
+if a > b { a = true } else { print null }
+
+for ( a = 0 ; a < 10 ; a += 1 ) { break }
+
+f = new int ( 1 )
+
+read
+
+return 0

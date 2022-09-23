@@ -29,8 +29,10 @@ def cli(input, source, output, verbose):
             continue
 
         try:
-            tokens = lexer.run(line)
-            parser.validate(tokens)
+            tokens = lexer.run(line.strip())
+            # print(line.strip())
+            print(tokens)
+            # parser.validate(tokens)
         except SyntaxException as err:
             print(f"Syntax error on line {index}")
             exit(err)
