@@ -1,6 +1,6 @@
 import click
 from pathlib import Path
-from flagg.interface import Lexer, Parser
+from flagg.interface import Lexer, Parser, SymbolTable
 from flagg.utils.errors import LexicalException, SyntaxException
 
 
@@ -11,8 +11,9 @@ from flagg.utils.errors import LexicalException, SyntaxException
 @click.option("--verbose/--no-verbose", default=False)
 def cli(input, source, output, verbose):
 
-    lexer = Lexer.parse(input, verbose=verbose)
-    parser = Parser.parse(input, verbose=verbose)
+    lexer = Lexer.parse(input, verbose=False)
+    parser = Parser.parse(input, verbose=False)
+    table = SymbolTable()
 
     with open(source, "r") as file:
         code = file.read()
@@ -30,9 +31,8 @@ def cli(input, source, output, verbose):
 
         try:
             tokens = lexer.run(line.strip())
-            # print(line.strip())
-            print(tokens)
-            # parser.validate(tokens)
+            table.append(index + 1, tokens)
+            parser.validate(tokens)
         except SyntaxException as err:
             print(f"Syntax error on line {index}")
             exit(err)
@@ -42,7 +42,12 @@ def cli(input, source, output, verbose):
             print((" " * (err.args[1] - 1)) + "^")
             exit()
 
-    print(f"{len(lines)} lines of code were validated")
+    print(f"\n {len(lines)} lines of code were validated")
+
+    if verbose:
+        print("\n Symbol table:")
+        print(table)
+        print("\n")
 
     if output is not None:
         lexer.save(output)
