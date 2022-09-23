@@ -222,6 +222,8 @@ class Lexer:
 
             i += 1
 
+        found = list(filter(lambda t: t.type != 'whitespace', found))
+
         if self.verbose:
             data = []
             for entry in found:
