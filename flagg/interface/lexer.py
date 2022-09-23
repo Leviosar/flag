@@ -5,7 +5,7 @@ import re
 import click
 from typing import Dict, List, Union
 from tabulate import tabulate
-from autome.utils.dataclasses import Definition, Token
+from flagg.utils.dataclasses import Definition, Token
 
 from flagg.utils.errors import LexicalException
 
