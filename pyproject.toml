@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flagg"
-version = "0.2.0"
+version = "0.2.3"
 description = "Formal Languages Analyzer Generator"
 authors = ["João Vitor Maia <maia.tostring@gmail.com>"]
 
