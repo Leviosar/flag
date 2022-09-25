@@ -2,9 +2,11 @@
 {
   float x;
   float z;
+  bool a;
   int i;
   int max;
   x = 0;
+  a = true + false;
   max = 10000;
   for (i = 1; i <= max; i = i + 1){
     print x;

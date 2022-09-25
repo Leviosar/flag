@@ -1,25 +1,27 @@
 {
     "version": "1.0.0",
     "description": "Describes a simple programming language with type hints",
-    "reserved-keywords": [],
+    "reserved-keywords": [
+        "if",
+        "else",
+        "for",
+        "new",
+        "def",
+        "break",
+        "print",
+        "read",
+        "return"
+    ],
     "definitions": [
         {"name": "digit", "expression": "[\\d]"},
         {"name": "letter", "expression": "[a-zA-Z]"}
     ],
     "tokens": [
         {"name": "whitespace", "expression": " "},
-        {"name": "if", "expression": "if"},
-        {"name": "else", "expression": "else"},
-        {"name": "for", "expression": "for"},
-        {"name": "new", "expression": "new"},
-        {"name": "function", "expression": "function"},
-        {"name": "break", "expression": "break"},
-        {"name": "print", "expression": "print"},
-        {"name": "read", "expression": "read"},
-        {"name": "return", "expression": "return"},
         {"name": "semicolon", "expression": ";"},
-        {"name": "type", "expression": "^int$|^float$|^boolean$|^string$"},
+        {"name": "type", "expression": "^int$|^float$|^bool$|^string$"},
         {"name": "null_literal", "expression": "null"},
+        {"name": "boolean_literal", "expression": "^true$|^false$"},
         {"name": "id", "expression": "letter(letter|digit)*"},
         {"name": "attr", "expression": "="},
         {"name": "c_op", "expression": "^>$|^>=$|^<$|^<=$|^==$|^!=$"},
@@ -31,7 +33,6 @@
         {"name": "r_par", "expression": "[\\)]"},
         {"name": "l_bra", "expression": "[\\[]"},
         {"name": "r_bra", "expression": "[\\]]"},
-        {"name": "boolean_literal", "expression": "^true$|^false$"},
         {"name": "float_literal", "expression": "digit*\\.digit*"},
         {"name": "integer_literal", "expression": "digitdigit*"},
         {"name": "string_literal", "expression": "'.*'"}

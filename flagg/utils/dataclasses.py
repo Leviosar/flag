@@ -22,3 +22,9 @@ class Token:
 
     def __repr__(self) -> str:
         return f"{self.type}:{self.value}"
+
+    def __eq__(self, other: object) -> bool:
+        if type(other) == Token:
+            return self.type == other.type and self.value == other.value
+        
+        return False

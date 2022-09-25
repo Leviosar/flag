@@ -1,0 +1,100 @@
+def main() {
+	int i;
+	int valor = 70;
+	int j;
+	int achou;
+	int tamanho = 4;
+	int num = 0;
+	int resp = 1;
+	string nomeClient[50];
+	string emailCliente[50];
+	string rgCliente[15];
+	string cadastro[8];
+	for(i = 1; i <= valor; i = i + 1) {
+		achou = achou - 10;
+		tamanho = tamanho + 1;
+		for (j = 1; j < tamanho; j = j + 1) {
+			if (nomeCliente == '') {
+				nomeClinte[i] = '0';
+			}
+			if (valor > tamanho) {
+				num = valor - tamanho;
+			}
+			if (tamanho >= valor) {
+				num = tamanho - valor;
+			}
+		}
+		resp = achou - tamanho + num;
+		num = achou;
+		tamanho = respo + num;
+		i = 0.0001;
+		j = 0;
+	}
+}
+
+def fibonacci() {
+	int n;
+	int fib;
+	int aux;
+	fib = 0;
+	aux = 0;
+	n= 23;
+
+	for(i = 0; i < n; i = i + 1) {
+		fib = fib + aux;
+		aux = n;
+		n = fib;
+	}
+
+	print fib;
+
+	return 0;
+}
+
+def bubble() {
+	int k;
+	int j;
+	int aux;
+	int n = 20;
+
+	for(k = 1; k < n; k = k + 1) {
+		print k;
+		k = k - 1;
+		for(j = 1; k < n -1; k = k + 1) {
+			print j;
+
+			aux = aux + 0.01;
+			j = k;
+		}
+	}
+}
+
+def whatshappen() {
+	int x = 2;
+	int y = 3;
+	int resultado;
+	
+	for (i = 0; i < 30; i = i + 1) {
+		if (i % 2 == 0) {
+			print 'mod 2';
+			x = y;
+			y = y * y;
+		}
+		else {
+			y = x;
+			x = x * x;
+		}
+
+		if (i % 5 == 0) {
+			x = x * 9;
+			y = x * y + 2 - 0.001;
+			print x;
+			print y;
+		}
+	}
+
+	resultado = x + y
+
+	print 'Resultado é:';
+	print resultado;
+}

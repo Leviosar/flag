@@ -17,8 +17,8 @@ setup:
 
 run:
 	@echo -e "${GREEN} Executing $(source)... ${NC}"
-	@./.venv/bin/python -m flagg ./samples/lcc/lcc.json $(source)
+	@./.venv/bin/python -m flagg ./samples/lcc/lcc.lexer.json $(source) --verbose
 
 test:
 	@echo -e "${GREEN} Running tests with Pytest ${NC}"
-	@./.venv/bin/pytest ./tests
+	@./.venv/bin/pytest -s ./tests

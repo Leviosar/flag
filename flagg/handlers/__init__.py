@@ -1,0 +1,1 @@
+from flagg.handlers.cli import cli_handler
